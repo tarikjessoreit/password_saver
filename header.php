@@ -1,4 +1,4 @@
-<?php date_default_timezone_set('Asia/Dhaka'); ?>
+<?php include "config.php"; ?>
 <!DOCTYPE html>
 <html>
 <head>

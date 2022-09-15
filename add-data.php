@@ -4,6 +4,30 @@
 		<div class="container p-2">
 			<h1>Add Data</h1>
 			<hr>
+				<?php 
+				if (isset($_POST['datasavebtn'])) {
+					$data_added_datetime =  date("Y-m-d H:i:s");
+					$data_user_ID =  '1';
+					$data_title =  $_POST['datatitle'];
+					$data_description =  $_POST['datanote'];
+					$data_username =  $_POST['datausername'];
+					$data_password =  $_POST['datapass'];
+					$data_status =  'active';
+
+					$sql = "INSERT INTO ps_data( data_added_datetime, data_user_ID, data_title, data_description, data_username, data_password, data_status) VALUES ('$data_added_datetime',$data_user_ID, '$data_title', '$data_description', '$data_username','$data_password', '$data_status')";
+
+					if($conn->query($sql)){
+
+						echo "Data Added Successfull!";
+					}else{
+						echo "Faild to add Data: ".$conn->error;
+					}
+
+				}
+
+			 ?>
+
+		
 
 			<div class="row">
 				<div class="col-6">
@@ -25,7 +49,7 @@
 					    <label for="datanote">Note Here</label>
 					    <textarea class="form-control" name="datanote" id="datanote" rows="3"></textarea>
 					  </div>
-					  <button type="submit" name="datasave" class="btn btn-primary px-4">Save Data</button>
+					  <input type="submit" name="datasavebtn" class="btn btn-primary px-4" value="Save Data">
 					</form>
 				</div>
 			</div>
