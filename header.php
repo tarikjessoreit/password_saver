@@ -1,4 +1,9 @@
 <?php include "config.php"; ?>
+<?php 
+if (!isset($_SESSION["UID"]) && !isset($_SESSION["logstatus"])) {
+	header('location:index.php');
+} 
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,12 +37,12 @@
 	      <div class="dropdown ms-3">
 			  <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
 			  	<img src="assets/images/default-profile-avater.png" class="profile-avatar" alt="">
-			    Mr. Jon
+			    <?php echo isset($_SESSION['fullname'])?$_SESSION['fullname']:'User Name'; ?>
 			  </button>
 			  <ul class="dropdown-menu">
 			    <li><a class="dropdown-item" href="#">Profile</a></li>
 			    <li><a class="dropdown-item" href="#">Settings</a></li>
-			    <li><a class="dropdown-item" href="#">Logout</a></li>
+			    <li><a class="dropdown-item" href="logout.php">Logout</a></li>
 			  </ul>
 			</div>
 	    </div>

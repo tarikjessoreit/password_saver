@@ -5,32 +5,38 @@
 			<h1>Add Data</h1>
 			<hr>
 				<?php 
+				$msg="";
+				$err="";
 				if (isset($_POST['datasavebtn'])) {
 					$data_added_datetime =  date("Y-m-d H:i:s");
-					$data_user_ID =  '1';
+					$data_user_ID =  $_SESSION["UID"];
 					$data_title =  $_POST['datatitle'];
 					$data_description =  $_POST['datanote'];
 					$data_username =  $_POST['datausername'];
 					$data_password =  $_POST['datapass'];
 					$data_status =  'active';
 
-					$sql = "INSERT INTO ps_data( data_added_datetime, data_user_ID, data_title, data_description, data_username, data_password, data_status) VALUES ('$data_added_datetime',$data_user_ID, '$data_title', '$data_description', '$data_username','$data_password', '$data_status')";
+					$sql = "INSERT INTO ".TBL_DATA."( data_added_datetime, data_user_ID, data_title, data_description, data_username, data_password, data_status) VALUES ('$data_added_datetime',$data_user_ID, '$data_title', '$data_description', '$data_username','$data_password', '$data_status')";
 
 					if($conn->query($sql)){
-
-						echo "Data Added Successfull!";
+						$msg = "Data Added Successfull!";
 					}else{
-						echo "Faild to add Data: ".$conn->error;
+						$err="Faild to add Data: ".$conn->error;
 					}
-
 				}
 
 			 ?>
 
-		
-
 			<div class="row">
 				<div class="col-6">
+
+					<?php if(!empty($msg)){ ?>
+					<div class="alert alert-success"><?php echo $msg; ?></div>
+					<?php } ?>
+					<?php if(!empty($err)){ ?>
+					<div class="alert alert-danger"><?php echo $err; ?></div>
+					<?php } ?>
+
 					<form action="" method="POST">
 					  <div class="form-group mb-4">
 					    <label for="datatitle">Title</label>

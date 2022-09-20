@@ -1,3 +1,4 @@
+<?php include "config.php"; ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,6 +10,34 @@
 </head>
 <body>
 
+	<?php 
+	if (isset($_SESSION["UID"]) && isset($_SESSION["logstatus"])) {
+		header('location:dashboard.php');
+	}
+
+	$msg="";
+	$err="";
+	if (isset($_POST['loginbtn'])) {
+		$username =  $_POST['uusername'];
+		$password =  $_POST['upass'];
+
+		$sql = "SELECT * FROM ".TBL_USER." WHERE (user_username  ='$username' OR user_email = '$username') AND user_password = '$password'";
+		$result = $conn->query($sql);
+		if ($result->num_rows > 0) {
+			while ($row = $result->fetch_assoc()){ 
+				$msg="Login Successfull";
+				$_SESSION["fullname"] = $row['user_fullname'];
+				$_SESSION["UID"] = $row['ID'];
+				$_SESSION["logstatus"] = true;
+				header('refresh:2;url=dashboard.php');
+
+			}
+		}else{
+			$err="Login Faild Please Try Again";
+		}
+	}
+	?> 
+
 	<section class="vh-100">
 	  <div class="container py-5 h-100">
 	    <div class="row d-flex align-items-center justify-content-center h-100">
@@ -17,16 +46,22 @@
 	          class="img-fluid" alt="Phone image">
 	      </div>
 	      <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
-	        <form method="POST" action="dashboard.php">
+	      	<?php if(!empty($msg)){ ?>
+			<div class="alert alert-success"><?php echo $msg; ?></div>
+			<?php } ?>
+			<?php if(!empty($err)){ ?>
+			<div class="alert alert-danger"><?php echo $err; ?></div>
+			<?php } ?>
+	        <form method="POST" action="">
 	          <!-- Email input -->
 	          <div class="form-outline mb-4">
-	            <input type="email" id="form1Example13" class="form-control form-control-lg" />
-	            <label class="form-label" for="form1Example13">Email address</label>
+	            <input type="text" name="uusername" id="uusername" class="form-control form-control-lg" />
+	            <label class="form-label" for="uusername">Email / Username</label>
 	          </div>
 
 	          <!-- Password input -->
 	          <div class="form-outline mb-4">
-	            <input type="password" id="form1Example23" class="form-control form-control-lg" />
+	            <input type="password" name="upass" id="upass" class="form-control form-control-lg" />
 	            <label class="form-label" for="form1Example23">Password</label>
 	          </div>
 
